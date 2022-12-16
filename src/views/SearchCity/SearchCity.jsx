@@ -15,7 +15,7 @@ const SearchCity = () => {
 
     const [cities, setCities] = useState([])
     const [selectedCity, setSelectedCity] = useState(null)
-    const [favorites, setFavorites] = useState([])
+    const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem('favorites')) || [])
 
     function handleCitySelect(city) {
         setSelectedCity(city)
@@ -34,15 +34,23 @@ const SearchCity = () => {
         fetchCities()
     }, [])
 
+    useEffect(() => {
+        localStorage.setItem('favorites', JSON.stringify(favorites))
+    }, [favorites])
+
     return (
-        <div className={`${styles.SearchCity} flex`}>
+        <div className={`${styles.searchCity} flex`}>
             <Sidebar
                 title="Favorites"
                 favorites={favorites}
                 onSelect={() => { handleCitySelect }}
             />
-            <main className="flex flex-col w-full border-4 items-center pt-[200px]">
-                <h1 className={styles.searchCity__heading}>Meteo App</h1>
+            <main className="flex flex-col w-full items-center pt-[200px]">
+                <h1
+                    className="mb-4 text-4xl tracking-tight leading-none text-gray-500 md:text-5xl lg:text-6x"
+                >
+                    Meteo App
+                </h1>
                 <div className="w-5/6 max-w-[1000px] mt-10">
                     <Autocomplete
                         options={cities}
