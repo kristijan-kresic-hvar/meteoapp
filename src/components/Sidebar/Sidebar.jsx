@@ -20,18 +20,21 @@ const Sidebar = ({ title, favorites, onSelect }) => {
             `
             }
         >
-            {favorites.length > 0 && (
-                <div>
-                    <h2 className="text-xl md:text-2xl lg:text-3xl pt-6 pl-3">{title}:</h2>
-                    <ul className="pl-6 pt-6">
-                        {favorites.map((favorite) => (
-                            <li className="text-md md:text-lg mb-5" key={favorite.id}>
-                                <button onClick={() => onSelect(favorite)}>{favorite.name}</button>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
+            <div>
+                <h2 className="text-xl md:text-2xl lg:text-3xl pt-6 pl-3">{title}:</h2>
+
+                {favorites.length > 0 && (
+                    <div>
+                        <ul className="pl-6 pt-6">
+                            {favorites.map((favorite) => (
+                                <li className="text-md md:text-lg mb-5" key={favorite.id}>
+                                    <button onClick={() => onSelect(favorite)}>{favorite.name}</button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+            </div>
         </aside>
     );
 }
