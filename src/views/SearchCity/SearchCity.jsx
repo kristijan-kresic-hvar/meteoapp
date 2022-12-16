@@ -43,7 +43,7 @@ const SearchCity = () => {
             />
             <main className="flex flex-col w-full border-4 items-center pt-[200px]">
                 <h1 className={styles.searchCity__heading}>Meteo App</h1>
-                <div>
+                <div className="w-5/6 max-w-[1000px] mt-10">
                     <Autocomplete
                         options={cities}
                         onSelect={handleCitySelect}

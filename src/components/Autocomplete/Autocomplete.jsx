@@ -2,20 +2,22 @@ import { useState, useMemo } from 'react'
 
 // third party libraries
 import PropTypes from 'prop-types'
+import { useDebounce } from 'use-debounce'
 
 const Autocomplete = ({ options, onSelect, onFavorite, favorites }) => {
     const [searchQuery, setSearchQuery] = useState('')
+    const [debouncedSearchQuery] = useDebounce(searchQuery, 500)
 
     function handleSearchQueryChange(event) {
         setSearchQuery(event.target.value)
     }
 
     const filteredOptions = useMemo(() => {
-        const lowerCaseSearchQuery = searchQuery.toLowerCase()
+        const lowerCaseSearchQuery = debouncedSearchQuery.toLowerCase()
         return options.filter((option) =>
             option.city.toLowerCase().startsWith(lowerCaseSearchQuery)
         )
-    }, [options, searchQuery])
+    }, [options, debouncedSearchQuery])
 
     function handleOptionSelect(option) {
         setSearchQuery('')
@@ -23,24 +25,60 @@ const Autocomplete = ({ options, onSelect, onFavorite, favorites }) => {
     }
 
     return (
-        <div>
-            <label>
-                Search:
-                <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={handleSearchQueryChange}
-                />
-            </label>
+        <div className="w-full">
+            <form>
+                <label
+                    for="city-search"
+                    class="mb-2 text-sm font-medium text-gray-900 sr-only"
+                >
+                    Search
+                </label>
+                <div class="relative w-full">
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-10 pointer-events-none">
+                        <svg
+                            aria-hidden="true"
+                            class="w-5 h-5 text-gray-500"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                            >
+                            </path>
+                        </svg>
+                    </div>
+                    <input
+                        type="search"
+                        id="city-search"
+                        class="block w-full p-4 pl-10 text-sm text-gray-900 border text-md md:text-lg border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Search..."
+                        value={searchQuery}
+                        onChange={handleSearchQueryChange}
+                    />
+                </div>
+            </form>
             {searchQuery.length > 0 && (
-                <ul>
+                <ul
+                    className="w-full mt-3 max-h-[600px] overflow-auto bg-gray-50 drop-shadow-lg"
+                >
                     {/* Znam da index nije idealna opcija za key, ali da ne dajem nanoid svakom gradu ovako je lakse, a api bi ionako trebao vracati id skupa sa gradom */}
                     {filteredOptions.map((option, index) => (
-                        <li key={index}>
-                            <button onClick={() => handleOptionSelect(option.city)}>
+                        <li className="flex justify-between" key={index}>
+                            <button
+                                className="w-full text-left hover:bg-gray-100 text-md md:text-lg py-4 px-10"
+                                onClick={() => handleOptionSelect(option.city)}
+                            >
                                 {option.city}
                             </button>
-                            <button onClick={() => onFavorite(option.city)}>
+                            <button
+                                className="text-2xl md:text-3xl px-8 text-center hover:bg-gray-100"
+                                onClick={() => onFavorite(option.city)}
+                            >
                                 {favorites.find((item) => item.name === option.city)
                                     ? '★'
                                     : '☆'}
