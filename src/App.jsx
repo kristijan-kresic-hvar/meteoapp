@@ -1,10 +1,19 @@
+import { useState } from 'react'
+
+// local components
+import SearchCity from './views/SearchCity/SearchCity'
+import MeteoData from './views/MeteoData/MeteoData'
+
+// local assets
 import styles from './App.module.css'
 
 function App() {
+  const [selectedCity, setSelectedCity] = useState('')
 
   return (
     <div className={styles.app}>
-      <h1>Hello Meteoapp</h1>
+      {!selectedCity && <SearchCity />}
+      {selectedCity && <MeteoData />}
     </div>
   )
 }
