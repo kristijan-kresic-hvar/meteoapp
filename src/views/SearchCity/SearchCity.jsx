@@ -35,19 +35,22 @@ const SearchCity = () => {
     }, [])
 
     return (
-        <div className={styles.SearchCity}>
+        <div className={`${styles.SearchCity} flex`}>
             <Sidebar
                 title="Favorites"
                 favorites={favorites}
                 onSelect={() => { handleCitySelect }}
             />
-            <main>
-                <Autocomplete
-                    options={cities}
-                    onSelect={handleCitySelect}
-                    favorites={favorites}
-                    onFavorite={handleFavorite}
-                />
+            <main className="flex flex-col w-full border-4 items-center pt-[200px]">
+                <h1 className={styles.searchCity__heading}>Meteo App</h1>
+                <div>
+                    <Autocomplete
+                        options={cities}
+                        onSelect={handleCitySelect}
+                        favorites={favorites}
+                        onFavorite={handleFavorite}
+                    />
+                </div>
             </main>
         </div>
     )
