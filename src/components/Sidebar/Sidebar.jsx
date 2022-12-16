@@ -1,10 +1,31 @@
+import { useMemo, useCallback } from 'react'
+
 // third party libraries
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 // local assets
 import styles from './Sidebar.module.css'
 
 const Sidebar = ({ title, favorites, onSelect }) => {
+    const handleSelect = useCallback((favorite) => {
+        onSelect(favorite)
+    }, [onSelect])
+
+    const favoriteElements = useMemo(() => {
+        return favorites.map((favorite) => (
+            <li
+                className="text-md md:text-lg mb-5"
+                key={favorite.id}
+            >
+                <button
+                    onClick={() => handleSelect(favorite)}
+                >
+                    {favorite.name}
+                </button>
+            </li>
+        ))
+    }, [favorites])
+
     return (
         <aside
             className={`
@@ -21,22 +42,23 @@ const Sidebar = ({ title, favorites, onSelect }) => {
             }
         >
             <div>
-                <h2 className="text-xl md:text-2xl lg:text-3xl pt-6 pl-3">{title}:</h2>
+                <h2
+                    className="text-xl md:text-2xl lg:text-3xl pt-6 pl-3"
+                >
+                    {title}:
+                </h2>
 
                 {favorites.length > 0 && (
                     <div>
-                        <ul className="pl-6 pt-6">
-                            {favorites.map((favorite) => (
-                                <li className="text-md md:text-lg mb-5" key={favorite.id}>
-                                    <button onClick={() => onSelect(favorite)}>{favorite.name}</button>
-                                </li>
-                            ))}
+                        <ul
+                            className="pl-6 pt-6">
+                            {favoriteElements}
                         </ul>
                     </div>
                 )}
             </div>
         </aside>
-    );
+    )
 }
 
 Sidebar.propTypes = {
@@ -48,4 +70,4 @@ Sidebar.propTypes = {
     onSelect: PropTypes.func.isRequired,
 }
 
-export default Sidebar;
+export default Sidebar
