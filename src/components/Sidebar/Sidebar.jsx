@@ -14,49 +14,39 @@ const Sidebar = ({ title, favorites, onSelect }) => {
     const favoriteElements = useMemo(() => {
         return favorites.map((favorite) => (
             <li
-                className="text-md md:text-lg mb-5"
                 key={favorite.id}
             >
-                <button
+                <div
                     onClick={() => handleSelect(favorite)}
+                    class="flex items-center cursor-pointer p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                    {favorite.name}
-                </button>
+                    <p class="ml-3 text-lg">{favorite.name}</p>
+                </div>
             </li>
         ))
     }, [favorites])
 
     return (
         <aside
-            className={`
-                ${styles.sidebar} 
-                w-2/5 
-                max-w-[320px] 
-                min-w-[220px] 
-                h-screen 
-                bg-[#929292]
-                hidden 
-                md:block
-                text-white
-            `
-            }
+            className="w-[40%] max-w-[400px] h-screen bg-gray-50 overflow-hidden hover:overflow-y-auto hidden lg:block"
+            ariaLabel="Sidebar"
         >
-            <div>
-                <h2
-                    className="text-xl md:text-2xl lg:text-3xl pt-6 pl-3"
+            <div class="flex items-center pl-2.5 mb-5">
+                <h4
+                    className="mb-4 ml-3 px-3 mt-10 text-3xl tracking-tight leading-none text-gray-500  lg:text-6x"
                 >
-                    {title}:
-                </h2>
-
-                {favorites.length > 0 && (
-                    <div>
-                        <ul
-                            className="pl-6 pt-6">
+                    Favorites
+                </h4>
+            </div>
+            {
+                favorites.length > 0 && (
+                    <div class="overflow-y-auto py-4 px-3 bg-gray-50 rounded">
+                        <ul class="space-y-2">
                             {favoriteElements}
                         </ul>
                     </div>
-                )}
-            </div>
+                )
+            }
         </aside>
     )
 }
@@ -71,3 +61,7 @@ Sidebar.propTypes = {
 }
 
 export default Sidebar
+
+
+
+
