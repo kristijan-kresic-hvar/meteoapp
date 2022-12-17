@@ -1,29 +1,29 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 // third party libraries
-import { nanoid } from 'nanoid'
+import PropTypes from 'prop-types'
+import axios from 'axios'
 
 // local components
-import Sidebar from '../../components/Sidebar/Sidebar'
 import Autocomplete from '../../components/Autocomplete/Autocomplete'
-import axios from 'axios'
+
+// context
+import { FavoritesContext } from '../../context/favoritesContext'
 
 // local assets
 import styles from './SearchCity.module.css'
 
-const SearchCity = () => {
+const SearchCity = ({ onCitySelect }) => {
 
+    const { favorites, addFavorite } = useContext(FavoritesContext)
     const [cities, setCities] = useState([])
-    const [selectedCity, setSelectedCity] = useState(null)
-    const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem('favorites')) || [])
 
     function handleCitySelect(city) {
-        setSelectedCity(city)
+        onCitySelect(city)
     }
 
-    function handleFavorite(option) {
-        if (favorites.find(item => item.name === option)) return setFavorites(favorites.filter(item => item.name !== option))
-        setFavorites([...favorites, { id: nanoid(), name: option }])
+    function handleFavorite(city) {
+        addFavorite(city)
     }
 
     useEffect(() => {
@@ -34,17 +34,8 @@ const SearchCity = () => {
         fetchCities()
     }, [])
 
-    useEffect(() => {
-        localStorage.setItem('favorites', JSON.stringify(favorites))
-    }, [favorites])
-
     return (
-        <div className={`${styles.searchCity} flex`}>
-            <Sidebar
-                title="Favorites"
-                favorites={favorites}
-                onSelect={() => { handleCitySelect }}
-            />
+        <div className={`${styles.searchCity}`}>
             <main className="flex flex-col w-full items-center pt-[200px]">
                 <h1
                     className="mb-4 text-4xl tracking-tight leading-none text-gray-500 md:text-5xl lg:text-6x"
@@ -62,6 +53,10 @@ const SearchCity = () => {
             </main>
         </div>
     )
+}
+
+SearchCity.propTypes = {
+    onCitySelect: PropTypes.func.isRequired,
 }
 
 export default SearchCity
