@@ -8,7 +8,8 @@ import styles from './Sidebar.module.css'
 
 const Sidebar = ({ title, favorites, onSelect }) => {
     const handleSelect = useCallback((favorite) => {
-        onSelect(favorite)
+        console.log(favorite)
+        onSelect(favorite.name)
     }, [onSelect])
 
     const favoriteElements = useMemo(() => {
@@ -18,9 +19,9 @@ const Sidebar = ({ title, favorites, onSelect }) => {
             >
                 <div
                     onClick={() => handleSelect(favorite)}
-                    class="flex items-center cursor-pointer p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className={`${styles.sidebar} flex items-center cursor-pointer p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700`}
                 >
-                    <p class="ml-3 text-lg">{favorite.name}</p>
+                    <p className="ml-3 text-lg">{favorite.name}</p>
                 </div>
             </li>
         ))
@@ -29,19 +30,19 @@ const Sidebar = ({ title, favorites, onSelect }) => {
     return (
         <aside
             className="w-[40%] max-w-[400px] h-screen bg-gray-50 overflow-hidden hover:overflow-y-auto hidden lg:block"
-            ariaLabel="Sidebar"
+            aria-label="Sidebar"
         >
-            <div class="flex items-center pl-2.5 mb-5">
+            <div className="flex items-center pl-2.5 mb-5">
                 <h4
                     className="mb-4 ml-3 px-3 mt-10 text-3xl tracking-tight leading-none text-gray-500  lg:text-6x"
                 >
-                    Favorites
+                    {title}
                 </h4>
             </div>
             {
                 favorites.length > 0 && (
-                    <div class="overflow-y-auto py-4 px-3 bg-gray-50 rounded">
-                        <ul class="space-y-2">
+                    <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded">
+                        <ul className="space-y-2">
                             {favoriteElements}
                         </ul>
                     </div>
@@ -54,7 +55,7 @@ const Sidebar = ({ title, favorites, onSelect }) => {
 Sidebar.propTypes = {
     title: PropTypes.string.isRequired,
     favorites: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.number.isRequired,
+        id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
     })).isRequired,
     onSelect: PropTypes.func.isRequired,
