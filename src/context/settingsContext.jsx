@@ -12,8 +12,18 @@ const SettingsProvider = ({ children }) => {
         pastDays: '0',
     })
 
+    const resetSettings = () => {
+        setSettings({
+            temperatureUnit: 'celsius',
+            windSpeedUnit: 'km/h',
+            precipitationUnit: 'milimeter',
+            timezone: 'UTC',
+            pastDays: '0',
+        })
+    }
+
     return (
-        <SettingsContext.Provider value={{ settings, setSettings }}>
+        <SettingsContext.Provider value={{ settings, setSettings, resetSettings }}>
             {children}
         </SettingsContext.Provider>
     )
