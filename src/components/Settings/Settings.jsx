@@ -1,12 +1,14 @@
 import { useContext } from 'react'
 
 import { SettingsContext } from '../../context/settingsContext'
+import { FavoritesContext } from '../../context/favoritesContext'
 
 import styles from './Settings.module.css'
 
 const Settings = () => {
 
     const { settings, setSettings } = useContext(SettingsContext)
+    const { removeAllFavorites } = useContext(FavoritesContext)
 
     const handleChange = (event) => {
         setSettings({
@@ -226,6 +228,7 @@ const Settings = () => {
                     </button>
                     <button
                         type="button"
+                        onClick={removeAllFavorites}
                         className="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                     >
                         Delete favourites
