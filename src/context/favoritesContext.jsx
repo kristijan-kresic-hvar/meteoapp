@@ -16,12 +16,21 @@ const FavoritesProvider = ({ children }) => {
         setFavorites(prevFavorites => prevFavorites.filter(favorite => favorite.name !== city))
     }
 
+    const removeAllFavorites = () => {
+        setFavorites([])
+    }
+
     useEffect(() => {
         localStorage.setItem('favorites', JSON.stringify(favorites))
     }, [favorites])
 
     return (
-        <FavoritesContext.Provider value={{ favorites, addFavorite, removeFavorite }}>
+        <FavoritesContext.Provider value={{
+            favorites,
+            addFavorite,
+            removeFavorite,
+            removeAllFavorites
+        }}>
             {children}
         </FavoritesContext.Provider>
     )
