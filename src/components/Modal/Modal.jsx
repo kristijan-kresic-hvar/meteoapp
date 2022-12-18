@@ -21,7 +21,7 @@ const Modal = ({ isOpen, children, onClose }) => {
                     onClick={handleOverlayClick}
                 >
                     <div
-                        className="w-5/6 bg-white h-5/6 max-w-[1200px] relative">
+                        className="w-5/6 bg-white h-5/6 max-w-[1200px] relative rounded overflow-y-auto">
                         {children}
                         <div className="absolute right-5 top-5">
                             <button
@@ -37,7 +37,7 @@ const Modal = ({ isOpen, children, onClose }) => {
                                     viewBox="0 0 24 24"
                                     strokeWidth="1.5"
                                     stroke="currentColor"
-                                    class="w-4 h-4"
+                                    className="w-4 h-4"
                                 >
                                     <path
                                         strokeLinecap="round"
