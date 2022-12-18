@@ -1,23 +1,22 @@
-import { createContext, useState, useEffect } from "react"
+import { createContext, useReducer, useEffect } from "react"
 
-import { nanoid } from 'nanoid'
+import favoritesReducer from './reducers/favoritesReducer'
 
 const FavoritesContext = createContext()
 
 const FavoritesProvider = ({ children }) => {
-    const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem('favorites')) || [])
+    const [favorites, dispatch] = useReducer(favoritesReducer, JSON.parse(localStorage.getItem('favorites')) || [])
 
     const addFavorite = city => {
-        if (favorites.find(item => item.name === city)) return removeFavorite(city)
-        setFavorites(prevFavorites => [...prevFavorites, { id: nanoid(), name: city }])
+        dispatch({ type: 'ADD_FAVORITE', city })
     }
 
     const removeFavorite = city => {
-        setFavorites(prevFavorites => prevFavorites.filter(favorite => favorite.name !== city))
+        dispatch({ type: 'REMOVE_FAVORITE', city })
     }
 
     const removeAllFavorites = () => {
-        setFavorites([])
+        dispatch({ type: 'REMOVE_ALL_FAVORITES' })
     }
 
     useEffect(() => {
