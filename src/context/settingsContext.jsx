@@ -2,27 +2,20 @@ import { createContext, useState, useEffect } from "react"
 
 const SettingsContext = createContext()
 
+const defaultSettings = {
+    temperatureUnit: "celsius",
+    windSpeedUnit: "km/h",
+    precipitationUnit: "milimeter",
+    timezone: "UTC",
+    pastDays: "0",
+}
+
 const SettingsProvider = ({ children }) => {
 
-    const [settings, setSettings] = useState(
-        JSON.parse(localStorage.getItem('settings')) ||
-        {
-            temperatureUnit: 'celsius',
-            windSpeedUnit: 'km/h',
-            precipitationUnit: 'milimeter',
-            timezone: 'UTC',
-            pastDays: '0',
-        }
-    )
+    const [settings, setSettings] = useState(JSON.parse(localStorage.getItem('settings')) || defaultSettings)
 
     const resetSettings = () => {
-        setSettings({
-            temperatureUnit: 'celsius',
-            windSpeedUnit: 'km/h',
-            precipitationUnit: 'milimeter',
-            timezone: 'UTC',
-            pastDays: '0',
-        })
+        setSettings(defaultSettings)
     }
 
     useEffect(() => {
