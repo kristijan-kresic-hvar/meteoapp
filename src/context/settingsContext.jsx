@@ -4,8 +4,8 @@ const SettingsContext = createContext()
 
 const defaultSettings = {
     temperatureUnit: "celsius",
-    windSpeedUnit: "km/h",
-    precipitationUnit: "milimeter",
+    windSpeedUnit: "kmh",
+    precipitationUnit: "mm",
     timezone: "UTC",
     pastDays: "0",
 }
