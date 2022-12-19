@@ -8,7 +8,7 @@ import styles from './Sidebar.module.css'
 
 const Sidebar = ({ title, favorites, onSelect }) => {
     const handleSelect = useCallback((favorite) => {
-        onSelect(favorite.name)
+        onSelect(favorite)
     }, [onSelect])
 
     const favoriteElements = useMemo(() => {
@@ -20,7 +20,7 @@ const Sidebar = ({ title, favorites, onSelect }) => {
                     onClick={() => handleSelect(favorite)}
                     className={`${styles.sidebar} flex items-center cursor-pointer p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700`}
                 >
-                    <p className="ml-3 text-lg">{favorite.name}</p>
+                    <p className="ml-3 text-lg">{favorite.city}</p>
                 </div>
             </li>
         ))
@@ -55,7 +55,9 @@ Sidebar.propTypes = {
     title: PropTypes.string.isRequired,
     favorites: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
+        city: PropTypes.string.isRequired,
+        lat: PropTypes.string.isRequired,
+        lng: PropTypes.string.isRequired,
     })).isRequired,
     onSelect: PropTypes.func.isRequired,
 }
