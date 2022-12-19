@@ -1,4 +1,4 @@
-const checkboxes = [
+const dailyFilterOptions = [
     {
         id: 1,
         name: 'daily',
@@ -74,4 +74,4 @@ const checkboxes = [
 ];
 
 
-export default checkboxes
+export default dailyFilterOptions
