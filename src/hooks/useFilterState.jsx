@@ -4,12 +4,17 @@ const useFilterState = () => {
     const [filters, setFilters] = useState([])
 
     const handleFilterChange = event => {
-        const { value, checked } = event.target
+        const { value, checked, name } = event.target
         setFilters(prevFilters => {
             if (checked) {
-                return [...prevFilters, value]
+                if (name === 'daily') {
+                    return [...prevFilters, { daily: { ...prevFilters.daily, value } }]
+                }
+                else if (name === 'hourly') {
+                    return [...prevFilters, { hourly: { ...prevFilters.daily, value } }]
+                }
             } else {
-                return prevFilters.filter(filterValue => filterValue !== value)
+                return prevFilters.filter(filter => filter[name]?.value !== value)
             }
         })
     }
