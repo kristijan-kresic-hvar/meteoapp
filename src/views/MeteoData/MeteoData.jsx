@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 
 // local components
 import DailyFilters from '../../components/DailyFilters/DailyFilters'
+import HourlyFilters from '../../components/HourlyFilters/HourlyFilters'
 
 // local assets
 import styles from './MeteoData.module.css'
@@ -12,6 +13,18 @@ import styles from './MeteoData.module.css'
 const MeteoData = ({ selectedCity }) => {
     const [filters, setFilters] = useState({})
     const [filterType, setFilterType] = useState('') // daily, hourly
+
+    const renderFilters = () => {
+        if (filterType) {
+            if (filterType === 'daily') {
+                return <DailyFilters onFilterChange={setFilters} />
+            } else if (filterType === 'hourly') {
+                return <HourlyFilters onFilterChange={setFilters} />
+            } else {
+                return null
+            }
+        }
+    }
 
     return (
         <div className={`${styles.meteoData}`}>
@@ -36,9 +49,7 @@ const MeteoData = ({ selectedCity }) => {
                         </select>
                     </div>
                 </div>
-                <DailyFilters
-                    onFilterChange={setFilters}
-                />
+                {renderFilters()}
             </main>
         </div>
     )
