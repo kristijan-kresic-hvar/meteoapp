@@ -13,7 +13,7 @@ const Filters = ({ filters, handleFilterChange, title, options }) => (
                         type="checkbox"
                         name={option.name}
                         value={option.value}
-                        checked={filters.includes(option.value)}
+                        checked={filters.some(item => item[option.name] && item[option.name].value === option.value)}
                         onChange={handleFilterChange}
                         className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500"
                     />

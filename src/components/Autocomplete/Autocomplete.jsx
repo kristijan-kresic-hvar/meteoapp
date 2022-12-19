@@ -71,15 +71,15 @@ const Autocomplete = ({ options, onSelect, onFavorite, favorites }) => {
                         <li className="flex justify-between" key={index}>
                             <button
                                 className="w-full text-left hover:bg-gray-100 text-md md:text-lg py-4 px-10"
-                                onClick={() => handleOptionSelect(option.city)}
+                                onClick={() => handleOptionSelect(option)}
                             >
                                 {option.city}
                             </button>
                             <button
                                 className="text-2xl md:text-3xl px-8 text-center hover:bg-gray-100"
-                                onClick={() => onFavorite(option.city)}
+                                onClick={() => onFavorite(option)}
                             >
-                                {favorites.find((item) => item.name === option.city)
+                                {favorites.find((item) => item.city === option.city)
                                     ? '★'
                                     : '☆'}
                             </button>
@@ -102,7 +102,9 @@ Autocomplete.propTypes = {
     onFavorite: PropTypes.func.isRequired,
     favorites: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
+        city: PropTypes.string.isRequired,
+        lat: PropTypes.string.isRequired,
+        lng: PropTypes.string.isRequired,
     })).isRequired,
 }
 
