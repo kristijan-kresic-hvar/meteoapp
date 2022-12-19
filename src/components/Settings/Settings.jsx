@@ -87,7 +87,7 @@ const Settings = () => {
                             value="ms"
                             name="windSpeedUnit"
                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                            checked={settings.windSpeedUnit === 'm/s'}
+                            checked={settings.windSpeedUnit === 'ms'}
                             onChange={handleChange}
                         />
                         <label
