@@ -1,60 +1,30 @@
-import { useState, useEffect } from 'react'
+import checkboxes from './checkboxes'
 
-import styles from './DailyFilters.module.css'
-
-const Filters = ({ onFilterChange }) => {
-    const [filters, setFilters] = useState({
-        temperature: false,
-        humidity: false,
-        pressure: false,
-    })
-
-    const handleChange = event => {
-        const { name, checked } = event.target
-        setFilters(prevFilters => ({ ...prevFilters, [name]: checked }))
-    }
-
-    useEffect(() => {
-        onFilterChange(filters)
-    }, [filters, onFilterChange])
-
-    return (
-        <div className={`${styles.dailyFilters}`}>
-            <h2>Filters</h2>
-            <label htmlFor="temperature">
-                <input
-                    type="checkbox"
-                    id="temperature"
-                    name="temperature"
-                    checked={filters.temperature}
-                    onChange={handleChange}
-                />
-                Temperature
-            </label>
-            <br />
-            <label htmlFor="humidity">
-                <input
-                    type="checkbox"
-                    id="humidity"
-                    name="humidity"
-                    checked={filters.humidity}
-                    onChange={handleChange}
-                />
-                Humidity
-            </label>
-            <br />
-            <label htmlFor="pressure">
-                <input
-                    type="checkbox"
-                    id="pressure"
-                    name="pressure"
-                    checked={filters.pressure}
-                    onChange={handleChange}
-                />
-                Pressure
-            </label>
+const DailyFilters = ({ filters, handleFilterChange }) => (
+    <div className="container mx-auto flex justify-center mt-10">
+        <div className="grid lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-y-5 gap-x-16 xl:gap-x-24 xl:mt-14 ">
+            {checkboxes.map(checkbox => (
+                <div key={checkbox.id}>
+                    <input
+                        id={checkbox.id}
+                        type="checkbox"
+                        name={checkbox.name}
+                        value={checkbox.value}
+                        checked={filters.includes(checkbox.value)}
+                        onChange={handleFilterChange}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500"
+                    />
+                    <label
+                        htmlFor={checkbox.id}
+                        className="ml-2 text-md font-medium text-gray-900"
+                    >
+                        {checkbox.label}
+                    </label>
+                </div>
+            ))}
         </div>
-    );
-}
+    </div>
 
-export default Filters
+)
+
+export default DailyFilters
