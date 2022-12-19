@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 // local components
-import DailyFilters from '../../components/DailyFilters/DailyFilters'
-import HourlyFilters from '../../components/HourlyFilters/HourlyFilters'
+import Filters from '../../components/Filters/Filters'
 
 // local hooks
 import useFilterState from '../../hooks/useFilterState'
+
+import dailyFilterOptions from '../../filter_options/daily'
+import hourlyFilterOptions from '../../filter_options/hourly'
 
 // local assets
 import styles from './MeteoData.module.css'
@@ -20,9 +22,23 @@ const MeteoData = ({ selectedCity, onBack }) => {
     const renderFilters = () => {
         if (filterType) {
             if (filterType === 'daily') {
-                return <DailyFilters filters={filters} handleFilterChange={handleFilterChange} />
+                return (
+                    <Filters
+                        filters={filters}
+                        handleFilterChange={handleFilterChange}
+                        title="Daily Weather Variables"
+                        options={dailyFilterOptions}
+                    />
+                )
             } else if (filterType === 'hourly') {
-                return <HourlyFilters />
+                return (
+                    <Filters
+                        filters={filters}
+                        handleFilterChange={handleFilterChange}
+                        title="Hourly Weather Variables"
+                        options={hourlyFilterOptions}
+                    />
+                )
             } else {
                 return null
             }

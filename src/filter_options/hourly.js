@@ -1,4 +1,4 @@
-const checkboxes = [
+const hourlyFilterOptions = [
     {
         id: 1,
         name: 'temperature',
@@ -73,4 +73,4 @@ const checkboxes = [
     },
 ]
 
-export default checkboxes
+export default hourlyFilterOptions
