@@ -33,11 +33,11 @@ function App() {
         favorites={favorites}
         onSelect={setSelectedCity}
       />
-      <div className="w-full">
+      <div className="w-full px-3">
         {!selectedCity && <SearchCity onCitySelect={setSelectedCity} />}
-        {selectedCity && <MeteoData selectedCity={selectedCity} />}
+        {selectedCity && <MeteoData selectedCity={selectedCity} onBack={() => setSelectedCity('')} />}
       </div>
-      <div className="absolute right-10 bottom-10" title="Settings">
+      <div className="fixed right-10 bottom-10" title="Settings">
         <button
           type="button"
           onClick={openModal}
