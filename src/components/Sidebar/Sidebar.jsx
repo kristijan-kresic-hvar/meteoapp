@@ -8,7 +8,6 @@ import styles from './Sidebar.module.css'
 
 const Sidebar = ({ title, favorites, onSelect }) => {
     const handleSelect = useCallback((favorite) => {
-        console.log(favorite)
         onSelect(favorite.name)
     }, [onSelect])
 
