@@ -68,10 +68,10 @@ const Settings = () => {
                         <input
                             id="km/h"
                             type="radio"
-                            value="km/h"
+                            value="kmh"
                             name="windSpeedUnit"
                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                            checked={settings.windSpeedUnit === 'km/h'}
+                            checked={settings.windSpeedUnit === 'kmh'}
                             onChange={handleChange}
                         />
                         <label
@@ -84,7 +84,7 @@ const Settings = () => {
                         <input
                             id="m/s"
                             type="radio"
-                            value="m/s"
+                            value="ms"
                             name="windSpeedUnit"
                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
                             checked={settings.windSpeedUnit === 'm/s'}
@@ -137,10 +137,10 @@ const Settings = () => {
                         <input
                             id="milimeter"
                             type="radio"
-                            value="milimeter"
+                            value="mm"
                             name="precipitationUnit"
                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                            checked={settings.precipitationUnit === 'milimeter'}
+                            checked={settings.precipitationUnit === 'mm'}
                             onChange={handleChange}
                         />
                         <label
