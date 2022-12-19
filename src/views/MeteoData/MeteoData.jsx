@@ -2,11 +2,13 @@ import { useState, useEffect, useContext } from 'react'
 
 // third party libraries
 import PropTypes from 'prop-types'
+import moment from 'moment'
 
 import { SettingsContext } from '../../context/settingsContext'
 
 // local components
 import Filters from '../../components/Filters/Filters'
+import RenderChart from '../../components/RenderChart/RenderChart'
 
 // local hooks
 import useFilterState from '../../hooks/useFilterState'
@@ -19,10 +21,17 @@ import hourlyFilterOptions from '../../filter_options/hourly'
 import styles from './MeteoData.module.css'
 
 const MeteoData = ({ selectedCity, onBack }) => {
-    const { filters, handleFilterChange } = useFilterState()
-    const { getMeteorologicalData } = useMeteoApi()
-    const [filterType, setFilterType] = useState('') // daily, hourly
+
     const { settings } = useContext(SettingsContext)
+    const { filters, handleFilterChange } = useFilterState()
+
+    const { getMeteorologicalData } = useMeteoApi()
+
+    const [filterType, setFilterType] = useState('') // daily, hourly
+
+    const [weatherData, setWeatherData] = useState(null)
+    const [series, setSeries] = useState([])
+    const [options, setOptions] = useState({})
 
     const renderFilters = () => {
         if (filterType) {
@@ -50,13 +59,58 @@ const MeteoData = ({ selectedCity, onBack }) => {
         }
     }
 
+    // call api to get data
     useEffect(() => {
-        console.log('Filters updated:', filters)
-    }, [filters])
+        if (filterType) {
+            const getData = async () => {
+                const { data, error } = await getMeteorologicalData(selectedCity, filters)
+                if (error) return console.log(error)
+                setWeatherData(data)
+            }
+            getData()
+        }
+    }, [filters, settings])
 
     useEffect(() => {
-        getMeteorologicalData(selectedCity, filters)
-    }, [filters, settings])
+        if (weatherData) {
+
+            let dailySeries = []
+            let hourlySeries = []
+
+            const timeData = weatherData?.daily ?
+                weatherData.daily?.time.map(timestamp => moment.unix(new Date(timestamp)).format('MMM DD')) :
+                weatherData.hourly?.time.map(timestamp => moment.unix(new Date(timestamp)).format('MMM DD, HH:mm'))
+
+            if (weatherData.daily) {
+                Object.keys(weatherData?.daily).forEach(key => {
+                    key !== "time" && dailySeries.push({ name: key, data: weatherData.daily[key] })
+                })
+            }
+
+            if (weatherData?.hourly) {
+                Object.keys(weatherData?.hourly).forEach(key => {
+                    key !== "time" && hourlySeries?.push({ name: key, data: weatherData.hourly[key] })
+                })
+            }
+
+            setOptions(() => {
+                return {
+                    xaxis: {
+                        categories: timeData
+                    }
+                }
+            })
+
+            setSeries(() => {
+                return [
+                    ...dailySeries,
+                    ...hourlySeries
+                ]
+            })
+        }
+    }, [weatherData])
+
+    const hourInMS = 3600000
 
     return (
         <div className={`${styles.meteoData}`}>
@@ -90,6 +144,20 @@ const MeteoData = ({ selectedCity, onBack }) => {
                         </div>
                     </div>
                     {renderFilters()}
+                    {weatherData && filters.length > 0 &&
+                        <div className="my-20 w-full max-w-[1200px] mx-auto">
+                            <small
+                                className="text-sm ml-5">
+                                Data generated in {weatherData?.generationtime_ms.toFixed(2)} ms,
+                                <span> time in {settings.timezone} / utc offset in seconds {weatherData?.utc_offset_seconds}</span>
+                            </small>
+                            <RenderChart
+                                type={"line"}
+                                options={options}
+                                series={series}
+                            />
+                        </div>
+                    }
                 </div>
             </main>
         </div>
