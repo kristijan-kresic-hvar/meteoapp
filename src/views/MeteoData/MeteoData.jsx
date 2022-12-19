@@ -1,13 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 // third party libraries
 import PropTypes from 'prop-types'
+
+import { SettingsContext } from '../../context/settingsContext'
 
 // local components
 import Filters from '../../components/Filters/Filters'
 
 // local hooks
 import useFilterState from '../../hooks/useFilterState'
+import useMeteoApi from '../../hooks/useMeteoApi'
 
 import dailyFilterOptions from '../../filter_options/daily'
 import hourlyFilterOptions from '../../filter_options/hourly'
@@ -17,7 +20,9 @@ import styles from './MeteoData.module.css'
 
 const MeteoData = ({ selectedCity, onBack }) => {
     const { filters, handleFilterChange } = useFilterState()
+    const { getMeteorologicalData } = useMeteoApi()
     const [filterType, setFilterType] = useState('') // daily, hourly
+    const { settings } = useContext(SettingsContext)
 
     const renderFilters = () => {
         if (filterType) {
@@ -49,6 +54,10 @@ const MeteoData = ({ selectedCity, onBack }) => {
         console.log('Filters updated:', filters)
     }, [filters])
 
+    useEffect(() => {
+        getMeteorologicalData(selectedCity, filters)
+    }, [filters, settings])
+
     return (
         <div className={`${styles.meteoData}`}>
             <main className="container mx-auto">
@@ -63,7 +72,7 @@ const MeteoData = ({ selectedCity, onBack }) => {
                     <h1
                         className="mt-5 mb-4 text-4xl tracking-tight leading-none text-gray-500 md:text-5xl lg:text-6x"
                     >
-                        Meteorologic data for {selectedCity}
+                        Meteorologic data for {selectedCity.city}
                     </h1>
                     <div className="mt-5 w-2/6 min-w-[300px] max-w-[500px] px-4">
                         <div className="flex flex-col">
@@ -88,7 +97,7 @@ const MeteoData = ({ selectedCity, onBack }) => {
 }
 
 MeteoData.propTypes = {
-    selectedCity: PropTypes.string.isRequired,
+    selectedCity: PropTypes.object,
     onBack: PropTypes.func.isRequired
 }
 

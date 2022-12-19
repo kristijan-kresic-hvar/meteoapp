@@ -15,16 +15,23 @@ import styles from './App.module.css'
 
 function App() {
   const { favorites } = useContext(FavoritesContext)
-  const [selectedCity, setSelectedCity] = useState('')
+  const [selectedCity, setSelectedCity] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const openModal = () => {
     setIsModalOpen(true)
-  };
+  }
 
   const closeModal = () => {
     setIsModalOpen(false)
-  };
+  }
+
+  const renderView = () => {
+    if (selectedCity) {
+      return <MeteoData selectedCity={selectedCity} onBack={() => setSelectedCity(null)} />
+    }
+    return <SearchCity onCitySelect={setSelectedCity} />
+  }
 
   return (
     <div className={`${styles.app} flex`}>
@@ -34,8 +41,7 @@ function App() {
         onSelect={setSelectedCity}
       />
       <div className="w-full px-3">
-        {!selectedCity && <SearchCity onCitySelect={setSelectedCity} />}
-        {selectedCity && <MeteoData selectedCity={selectedCity} onBack={() => setSelectedCity('')} />}
+        {renderView()}
       </div>
       <div className="fixed right-10 bottom-10" title="Settings">
         <button
