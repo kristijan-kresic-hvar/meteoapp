@@ -1,75 +1,75 @@
 const hourlyFilterOptions = [
     {
         id: 1,
-        name: 'temperature',
-        value: '2m',
+        name: 'hourly',
+        value: 'temperature_2m',
         label: 'Temperature (2 m)'
     },
     {
         id: 2,
-        name: 'relative-humidity',
-        value: '2m',
+        name: 'hourly',
+        value: 'relativehumidity_2m',
         label: 'Relative Humidity (2 m)'
     },
     {
         id: 3,
-        name: 'dewpoint',
-        value: '2m',
+        name: 'hourly',
+        value: 'dewpoint_2m',
         label: 'Dewpoint (2 m)'
     },
     {
         id: 4,
-        name: 'apparent-temperature',
-        value: 'apparent-temperature',
+        name: 'hourly',
+        value: 'apparent_temperature',
         label: 'Apparent Temperature'
     },
     {
         id: 5,
-        name: 'precipitation',
-        value: 'rain',
+        name: 'hourly',
+        value: 'precipitation',
         label: 'Precipitation (rain + showers + snow)'
     },
     {
         id: 6,
-        name: 'precipitation',
-        value: 'showers',
-        label: 'Precipitation (rain + showers + snow)'
-    },
-    {
-        id: 7,
-        name: 'precipitation',
-        value: 'snow',
-        label: 'Precipitation (rain + showers + snow)'
-    },
-    {
-        id: 8,
-        name: 'rain',
+        name: 'hourly',
         value: 'rain',
         label: 'Rain'
     },
     {
-        id: 9,
-        name: 'showers',
+        id: 7,
+        name: 'hourly',
         value: 'showers',
         label: 'Showers'
     },
     {
-        id: 10,
-        name: 'snowfall',
-        value: 'snowfall',
-        label: 'Snowfall'
-    },
-    {
-        id: 11,
-        name: 'snow-depth',
-        value: 'snow-depth',
+        id: 8,
+        name: 'hourly',
+        value: 'snow_depth',
         label: 'Snow Depth'
     },
     {
-        id: 12,
-        name: 'freezinglevel-height',
-        value: 'freezinglevel-height',
+        id: 9,
+        name: 'hourly',
+        value: 'freezinglevel_height',
         label: 'Freezinglevel Height'
+    },
+    {
+        id: 10,
+        name: 'hourly',
+        value: 'weathercode',
+        label: 'Weathercode'
+    },
+    {
+        id: 11,
+        name: 'hourly',
+        value: 'pressure_msl',
+        label: 'Sealevel Pressure'
+    },
+    {
+        id: 12,
+        name: 'hourly',
+        value: 'surface_pressure',
+        label: 'Surface Pressure'
     },
 ]
 
