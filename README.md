@@ -3,7 +3,15 @@
 Version 1.0.0
 
 # Local project setup
-// todo
+```shell
+git clone https://github.com/kristijan-kresic-hvar/meteoapp.git
+
+cd meteoapp
+
+npm install or yarn
+
+npm run dev or yarn dev
+```
 
 # Screenshots
 ## Home Screen
@@ -30,7 +38,7 @@ Version 1.0.0
 - I included empty module css files because I usually use css that way, but since you mentioned tailwind as a bonus I decided to use it as I also use it a lot and love it.
 - I tried to use various react caviars and ways of doing things to show that I really do understand js deeply and am really trying my best.
 - I am in the middle of my learning journey with typescript, as I wanted this project to be perfect and to reflect my knowledge I decided not to use it in this project, but I wanted to include some safety props checking so I as always included prop-types package until I learn typescript well.
-- If I had more time, I would make common components next (Button, Select, RadioGroup, etc), but I focused on bigger more important piece of codes first.
+- If I had more time, I would make common components next (Button, Select, RadioGroup, Loader etc), but I focused on bigger more important piece of codes first.
 
 ### =====================================================
 
