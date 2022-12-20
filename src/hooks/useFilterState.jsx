@@ -19,7 +19,11 @@ const useFilterState = () => {
         })
     }
 
-    return { filters, handleFilterChange }
+    const resetFilters = () => {
+        setFilters([])
+    }
+
+    return { filters, handleFilterChange, resetFilters }
 }
 
 export default useFilterState

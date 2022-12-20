@@ -1,8 +1,10 @@
-import { useState, useContext, useRef, useEffect } from 'react'
+import { useState, useContext, useRef, useMemo, lazy, Suspense } from 'react'
 
 // local components
-import SearchCity from './views/SearchCity/SearchCity'
-import MeteoData from './views/MeteoData/MeteoData'
+// lazy loaded
+const SearchCity = lazy(() => import('./views/SearchCity/SearchCity'))
+const MeteoData = lazy(() => import('./views/MeteoData/MeteoData'))
+
 import Sidebar from './components/Sidebar/Sidebar'
 import Settings from './components/Settings/Settings'
 import Modal from './components/Modal/Modal'
@@ -37,12 +39,20 @@ function App() {
     sidebarRef.current.style.left = 0
   }
 
-  const renderView = () => {
+  const renderView = useMemo(() => {
     if (selectedCity) {
-      return <MeteoData selectedCity={selectedCity} onBack={() => setSelectedCity(null)} />
+      return (
+        <Suspense fallback={<div>Loading...</div>}>
+          <MeteoData selectedCity={selectedCity} onBack={() => setSelectedCity(null)} />
+        </Suspense>
+      )
     }
-    return <SearchCity onCitySelect={setSelectedCity} />
-  }
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        <SearchCity onCitySelect={setSelectedCity} />
+      </Suspense>
+    )
+  }, [selectedCity])
 
   return (
     <div className={`${styles.app} flex`}>
@@ -65,7 +75,7 @@ function App() {
             <span className="sr-only">Mobile menu handler</span>
           </button>
         </div>
-        {renderView()}
+        {renderView}
       </div>
       <div className="fixed right-10 bottom-10" title="Settings">
         <button

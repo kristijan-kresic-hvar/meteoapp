@@ -23,7 +23,7 @@ import styles from './MeteoData.module.css'
 const MeteoData = ({ selectedCity, onBack }) => {
 
     const { settings } = useContext(SettingsContext)
-    const { filters, handleFilterChange } = useFilterState()
+    const { filters, handleFilterChange, resetFilters } = useFilterState()
 
     const { getMeteorologicalData } = useMeteoApi()
 
@@ -127,6 +127,10 @@ const MeteoData = ({ selectedCity, onBack }) => {
             })
         }
     }, [weatherData])
+
+    useEffect(() => {
+        resetFilters()
+    }, [selectedCity])
 
     return (
         <div className={`${styles.meteoData}`}>
