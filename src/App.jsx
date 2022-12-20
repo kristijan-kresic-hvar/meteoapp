@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useRef, useEffect } from 'react'
 
 // local components
 import SearchCity from './views/SearchCity/SearchCity'
@@ -14,6 +14,9 @@ import { FavoritesContext } from './context/favoritesContext'
 import styles from './App.module.css'
 
 function App() {
+
+  const sidebarRef = useRef(null)
+
   const { favorites } = useContext(FavoritesContext)
   const [selectedCity, setSelectedCity] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -24,6 +27,14 @@ function App() {
 
   const closeModal = () => {
     setIsModalOpen(false)
+  }
+
+  const openSidebar = () => {
+    if (sidebarRef.current.style.left === '0px') {
+      sidebarRef.current.style.left = '-100%'
+      return
+    }
+    sidebarRef.current.style.left = 0
   }
 
   const renderView = () => {
@@ -39,8 +50,21 @@ function App() {
         title="Favorites"
         favorites={favorites}
         onSelect={setSelectedCity}
+        ref={sidebarRef}
       />
       <div className="w-full px-3">
+        <div className="flex justify-end pt-10 lg:hidden">
+          <button
+            type="button"
+            onClick={openSidebar}
+            className="transition ease-in-out rounded text-black border border-black bg-gray-100 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium p-2.5 text-center inline-flex items-center"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-7 h-7">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+            <span className="sr-only">Mobile menu handler</span>
+          </button>
+        </div>
         {renderView()}
       </div>
       <div className="fixed right-10 bottom-10" title="Settings">

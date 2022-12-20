@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react'
+import { useMemo, useCallback, forwardRef } from 'react'
 
 // third party libraries
 import PropTypes from 'prop-types'
@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 // local assets
 import styles from './Sidebar.module.css'
 
-const Sidebar = ({ title, favorites, onSelect }) => {
+const Sidebar = forwardRef(({ title, favorites, onSelect }, ref) => {
     const handleSelect = useCallback((favorite) => {
         onSelect(favorite)
     }, [onSelect])
@@ -18,7 +18,7 @@ const Sidebar = ({ title, favorites, onSelect }) => {
             >
                 <div
                     onClick={() => handleSelect(favorite)}
-                    className={`${styles.sidebar} flex items-center cursor-pointer p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700`}
+                    className={`${styles.sidebar} flex items-center cursor-pointer p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100`}
                 >
                     <p className="ml-3 text-lg">{favorite.city}</p>
                 </div>
@@ -28,7 +28,8 @@ const Sidebar = ({ title, favorites, onSelect }) => {
 
     return (
         <aside
-            className="w-[40%] max-w-[400px] h-screen bg-gray-50 overflow-hidden hover:overflow-y-auto hidden lg:block"
+            ref={ref}
+            className="transition-all .4s ease-in-out delay-150 position z-50 fixed top-0 left-[-100%] bottom-0 w-[60%] lg:max-w-[400px] h-screen bg-gray-50 overflow-hidden hover:overflow-y-auto lg:static"
             aria-label="Sidebar"
         >
             <div className="flex items-center pl-2.5 mb-5">
@@ -49,7 +50,7 @@ const Sidebar = ({ title, favorites, onSelect }) => {
             }
         </aside>
     )
-}
+})
 
 Sidebar.propTypes = {
     title: PropTypes.string.isRequired,
