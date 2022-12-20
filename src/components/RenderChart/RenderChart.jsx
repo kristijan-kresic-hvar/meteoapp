@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import Chart from 'react-apexcharts'
 
 import PropTypes from 'prop-types'
@@ -20,4 +20,4 @@ RenderChart.propTypes = {
     series: PropTypes.array.isRequired
 }
 
-export default RenderChart
+export default memo(RenderChart)
