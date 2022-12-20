@@ -78,8 +78,8 @@ const MeteoData = ({ selectedCity, onBack }) => {
             let hourlySeries = []
 
             const timeData = weatherData?.daily ?
-                weatherData.daily?.time.map(timestamp => moment.unix(new Date(timestamp)).format('MMM DD')) :
-                weatherData.hourly?.time.map(timestamp => moment.unix(new Date(timestamp)).format('MMM DD, HH:mm'))
+                weatherData.daily?.time.map(timestamp => moment(new Date(timestamp)).format('MMM DD')) :
+                weatherData.hourly?.time.map(timestamp => moment(new Date(timestamp)).format('MMM DD, HH:mm'))
 
             if (weatherData.daily) {
                 Object.keys(weatherData?.daily).forEach(key => {
@@ -96,7 +96,25 @@ const MeteoData = ({ selectedCity, onBack }) => {
             setOptions(() => {
                 return {
                     xaxis: {
-                        categories: timeData
+                        categories: timeData,
+                    },
+                    annotations: {
+                        xaxis: [
+                            filterType === 'daily' ?
+                                {
+                                    x: moment(new Date()).format('MMM DD'),
+                                    borderColor: '#775DD0',
+                                    label: {
+                                        orientation: 'horizontal',
+                                        style: {
+                                            background: '#775DD0',
+                                            color: '#fff',
+                                        },
+                                        text: 'Today'
+                                    }
+                                } :
+                                {}
+                        ]
                     }
                 }
             })
@@ -109,8 +127,6 @@ const MeteoData = ({ selectedCity, onBack }) => {
             })
         }
     }, [weatherData])
-
-    const hourInMS = 3600000
 
     return (
         <div className={`${styles.meteoData}`}>
