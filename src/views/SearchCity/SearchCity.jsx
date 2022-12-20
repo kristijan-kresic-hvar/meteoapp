@@ -27,11 +27,26 @@ const SearchCity = ({ onCitySelect }) => {
     }
 
     useEffect(() => {
+        const controller = new AbortController()
+
         async function fetchCities() {
-            const response = await axios.get('/gradovi.json')
-            setCities(response.data)
+            try {
+                const response = await axios.get('/gradovi.json', {
+                    signal: controller.signal
+                })
+                setCities(response.data)
+            }
+            catch (error) {
+                if (controller.signal.aborted) return
+                console.log(error)
+            }
+
         }
         fetchCities()
+
+        return () => {
+            controller.abort()
+        }
     }, [])
 
     return (
